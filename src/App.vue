@@ -12,28 +12,33 @@ import MainToolbar from './components/MainToolbar.vue';
       <HelloWorld msg="You did it!" />
     </div>
   </header> -->
-
-  <MainToolbar @refresh="refreshGoogleSheet" />
-   <!-- <GoogleSheet /> -->
-  <main>
+<div>
+    <MainToolbar @refresh="refreshGoogleSheet" />
+</div>
+<div>
+   <GoogleSheet />
+</div>
+  
+  <!-- <main> -->
     <!-- <TheWelcome /> -->
-    <GoogleSheet />
-  </main>
+    <!-- <GoogleSheet />
+  </main> -->
 </template>
 
 <style scoped>
-header {
+/* header {
   line-height: 1.5;
-}
+} */
 
-.logo {
+/* .logo {
   display: block;
   margin: 0 auto 2rem;
-}
+} */
 main {
   padding: 20px;
   padding-top: 60px; /* Adjust the padding-top to make space for the fixed toolbar */
 }
+
 /* @media (min-width: 1024px) {
   header {
     display: flex;
