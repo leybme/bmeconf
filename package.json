@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "papaparse": "^5.4.1",
-    "vue": "^3.4.29"
+    "vue": "^3.4.29",
+    "vuetify": "^3.6.12"
   },
   "devDependencies": {
+    "@mdi/font": "^7.4.47",
     "@vitejs/plugin-vue": "^5.0.5",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
