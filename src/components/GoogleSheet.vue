@@ -31,10 +31,16 @@
             </v-card>
         </div> -->
         <div v-for="(row, index) in paginatedRowsFiltered" :key="index" style="padding:5px">
-            <v-card :title="`#${row.SubmissionID} ${row.Title}`" :subtitle=row.Authors variant="tonal">
+            <v-card variant="tonal">
+                <v-card-title>
+                    <p v-html="highlightText(`#${row.SubmissionID} ${row.Title}`)"></p>
+                </v-card-title>
+                <v-card-subtitle>
+                    <p v-html="highlightText(row.Authors)"></p>
+                </v-card-subtitle>
                 <v-card-text v-if="!showTitleOnly">
                     <div class="abstract">
-                        <p>{{ row.Abstract }}</p>
+                        <p v-html="highlightText(row.Abstract)"></p>
                     </div>
                 </v-card-text>
                 <v-card-actions>
@@ -62,7 +68,7 @@ export default {
             currentPage: 1,
             itemsPerPage: 10,
             showTitleOnly: false,
-            searchQuery:''
+            searchQuery: ''
         };
     },
     computed: {
@@ -86,6 +92,9 @@ export default {
                 return this.rows;
             }
             const query = this.searchQuery.toLowerCase();
+            if (!isNaN(Number(query))) {
+                return this.rows.filter(row => row.SubmissionID == (query));
+            }
             return this.rows.filter(row =>
                 row.SubmissionID.includes(query) ||
                 row.Authors.toLowerCase().includes(query) ||
@@ -115,11 +124,13 @@ export default {
             if (this.currentPage < this.totalPages) {
                 this.currentPage++;
             }
+            this.searchQuery = ''; // Clear search query when navigating pages
         },
         prevPage() {
             if (this.currentPage > 1) {
                 this.currentPage--;
             }
+            this.searchQuery = ''; // Clear search query when navigating pages
         },
         toggleShowTitleOnly() {
             this.showTitleOnly = !this.showTitleOnly;
@@ -127,6 +138,14 @@ export default {
         handleSearch() {
             // Reset to first page when searching
             this.currentPage = 1;
+        },
+        highlightText(text) {
+            if (!this.searchQuery.trim()) {
+                return text;
+            }
+            const query = this.searchQuery.trim();
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<b class="highlight">$1</b>');
         }
     }
 };
@@ -138,6 +157,10 @@ export default {
     text-justify: inter-word;
 }
 
+.highlight {
+    background-color: yellow;
+    color: red;
+}
 
 .v-row {
     padding: 20px;
