@@ -8,6 +8,7 @@
                         {{ showTitleOnly ? 'Show Full Abstracts' : 'Show Titles Only' }}
                     </v-btn>
                 </v-col>
+                <v-col> <v-text-field v-model="searchQuery" label="Search" @input="handleSearch"></v-text-field></v-col>
                 <v-col class="pagination" cols="auto">
                     <v-btn @click="prevPage" :disabled="currentPage === 1">Previous</v-btn>
                     <span style="padding:10px">Page {{ currentPage }} of {{ totalPages }}</span>
@@ -15,10 +16,22 @@
                 </v-col>
             </v-row>
         </div>
-        <div v-for="(row, index) in paginatedRows" :key="index" style="padding:5px">
+        <!-- <div v-for="(row, index) in paginatedRows" :key="index" style="padding:5px">
     
             <v-card :title="`#${row.SubmissionID} ${row.Title}`" :subtitle=row.Authors 
                 variant="tonal">
+                <v-card-text v-if="!showTitleOnly">
+                    <div class="abstract">
+                        <p>{{ row.Abstract }}</p>
+                    </div>
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn>Read more</v-btn>
+                </v-card-actions>
+            </v-card>
+        </div> -->
+        <div v-for="(row, index) in paginatedRowsFiltered" :key="index" style="padding:5px">
+            <v-card :title="`#${row.SubmissionID} ${row.Title}`" :subtitle=row.Authors variant="tonal">
                 <v-card-text v-if="!showTitleOnly">
                     <div class="abstract">
                         <p>{{ row.Abstract }}</p>
@@ -48,7 +61,8 @@ export default {
             rows: [],
             currentPage: 1,
             itemsPerPage: 10,
-            showTitleOnly: false
+            showTitleOnly: false,
+            searchQuery:''
         };
     },
     computed: {
@@ -59,7 +73,27 @@ export default {
         },
         totalPages() {
             return Math.ceil(this.rows.length / this.itemsPerPage);
+        },
+        // Filtered rows based on search query
+        paginatedRowsFiltered() {
+            const start = (this.currentPage - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.filteredRows.slice(start, end);
+        },
+        // Apply filtering to all rows
+        filteredRows() {
+            if (!this.searchQuery.trim()) {
+                return this.rows;
+            }
+            const query = this.searchQuery.toLowerCase();
+            return this.rows.filter(row =>
+                row.SubmissionID.includes(query) ||
+                row.Authors.toLowerCase().includes(query) ||
+                row.Title.toLowerCase().includes(query) ||
+                row.Abstract.toLowerCase().includes(query)
+            );
         }
+
     },
     created() {
         this.loadCSV();
@@ -89,6 +123,10 @@ export default {
         },
         toggleShowTitleOnly() {
             this.showTitleOnly = !this.showTitleOnly;
+        },
+        handleSearch() {
+            // Reset to first page when searching
+            this.currentPage = 1;
         }
     }
 };
