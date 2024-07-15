@@ -1,35 +1,39 @@
-# bmeconf
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+# BMEConf
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+![Screenshot 2024-07-15 203309](https://github.com/user-attachments/assets/d2469759-9938-452e-a1e7-550a50d462d0)
+![Screenshot 2024-07-15 203155](https://github.com/user-attachments/assets/bc09b2c9-d4f3-4074-b419-a83aa6765ce0)
 
-## Customize configuration
+## Introduction
+This Vue app is designed to display the abstract book of the conference, with data imported from a live Google Sheet link via a public function. The app uses Axios to fetch the CSV file and display it. The main features of the app include displaying abstracts, and searching abstracts by keywords and submission ID.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+This project is a showcase of my journey learning Vue.js. I completed it in 5 days, demonstrating my ability to quickly grasp and apply new technologies.
+
+
+## Customize Configuration
+
+See the [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
-```sh
-npm install
-```
+1. **Install the dependencies:**
+    ```sh
+    npm install
+    ```
 
-### Compile and Hot-Reload for Development
+2. **Compile and Hot-Reload for Development:**
+    ```sh
+    npm run dev
+    ```
 
-```sh
-npm run dev
-```
+3. **Compile and Minify for Production:**
+    ```sh
+    npm run build
+    ```
 
-### Compile and Minify for Production
+4. **Lint with [ESLint](https://eslint.org/):**
+    ```sh
+    npm run lint
+    ```
 
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
